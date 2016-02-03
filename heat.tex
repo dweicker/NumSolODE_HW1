@@ -1,1 +1,18 @@
-blabla
+\subsection{Flux vector}
+
+\subsection{Q(t)}
+
+We are now interested in computing : 
+$$Q(t) = \int_0\int_0 q(x,y,t)dxdy$$
+
+Using the fundamental theorem of calculus, we have :
+$$Q(t) = Q(0) + \int_0 Q'(\tau)d\tau$$
+
+The initial condition gives :
+$$Q(0) =\int_0\int_0 q(x,y,0)dxdy = \int_0\int_0 0 \: dxdy = 0$$
+
+We also know that (using the definition of $Q$) :
+$$Q'(t) = \int_0\int_0 q_t(x,y,t)dxdy$$
+
+We are now going to use the PDE to substitute $q_t$. This yields :
+$$Q'(t) = \int_0\int_0 q_t(x,y,t)dxdy = \int_0\int_0 \nabla \cdot (\nabla q(x,y,t))dxdy+\int_0\int_0 S(x,y,t) dxdy$$
