@@ -3,16 +3,30 @@
 \subsection{Q(t)}
 
 We are now interested in computing : 
-$$Q(t) = \int_0\int_0 q(x,y,t)dxdy$$
+$$Q(t) = \int_0^1\int_0^1 q(x,y,t)dxdy$$
 
 Using the fundamental theorem of calculus, we have :
-$$Q(t) = Q(0) + \int_0 Q'(\tau)d\tau$$
+$$Q(t) = Q(0) + \int_0^t Q'(\tau)d\tau$$
 
 The initial condition gives :
-$$Q(0) =\int_0\int_0 q(x,y,0)dxdy = \int_0\int_0 0 \: dxdy = 0$$
+$$Q(0) =\int_0^1\int_0^1 q(x,y,0)dxdy = \int_0^1\int_0^1 0 \: dxdy = 0$$
 
 We also know that (using the definition of $Q$) :
-$$Q'(t) = \int_0\int_0 q_t(x,y,t)dxdy$$
+$$Q'(t) = \frac{d}{dt}(\int_0^1\int_0^1 q(x,y,t)dxdy)=\int_0^1\int_0^1 q_t(x,y,t)dxdy$$
 
 We are now going to use the PDE to substitute $q_t$. This yields :
-$$Q'(t) = \int_0\int_0 q_t(x,y,t)dxdy = \int_0\int_0 \nabla \cdot (\nabla q(x,y,t))dxdy+\int_0\int_0 S(x,y,t) dxdy$$
+$$Q'(t) = \int_0^1\int_0^1 q_t(x,y,t)dxdy = \int_0^1\int_0^1 \nabla \cdot (\nabla q(x,y,t))dxdy+\int_0^1\int_0^1 S(x,y,t) dxdy$$
+
+With divergence theorem, and if $S$ means the boundary of the domain and \textbf{n} the outward unit normal to the boundary, we have : 
+$$Q'(t) = \oint_S \nabla q(x,y,t)\cdot \textbf{n} \: ds + \int_0^1\int_0^1 S(x,y,t)dxdy$$
+
+Because the given boundary condition given is :
+$$\nabla q(x,y,t)\cdot \textbf{n} = 0$$
+
+We finally have : 
+$$Q'(t) = \int_0^1\int_0^1 S(x,y,t)dxdy$$
+
+This yields an expression for $Q$ as a function of $t$.
+$$Q(t) = \int_0^t\int_0^1\int_0^1 S(x,y,\tau)dxdyd\tau$$
+
+Because $S$ is a given function, this expression can always be computed as a function of $t$.
