@@ -1,1 +1,48 @@
-blabla
+We are given the following Euler equations in $u=(\rho, \rho v, E)$, 
+\begin{align*}
+	\rho_t + (\rho v)_x &= 0 \quad  \text{(Conservation of mass)} \\
+	(\rho v)_t +(\rho v^2 + p)_x &= 0 \quad \text{(Conservation of momentum)} \\
+	E_t + (v(E+p))_x &= 0 \quad \text{(Conservation of energy)}
+\end{align*}
+and the variable change $u = (\rho, \rho v, E) = (u_1, u_2, u_3)$. We then have 
+\begin{align*}
+	f(u) = (f_1, f_2, f_3)^T = (u_2, u_2^2/u_1 + p(u_1), u_2(u_3+p(u_1))/u_1)
+\end{align*}
+We now wish to find the eigenvalues and eigenvectors of the matrix 
+\begin{align*}
+	\frac{\partial f}{\partial u} = \begin{pmatrix}
+	\frac{\partial f_1}{\partial u_1} & \frac{\partial f_1}{\partial u_2} & \frac{\partial f_1}{\partial u_3} \\
+	\frac{\partial f_2}{\partial u_1} & \frac{\partial f_2}{\partial u_2} & \frac{\partial f_2}{\partial u_3} \\
+	\frac{\partial f_3}{\partial u_1} & \frac{\partial f_3}{\partial u_2} & \frac{\partial f_3}{\partial u_3}
+	\end{pmatrix}
+\end{align*} 
+Using simple partial differentiation, we calculate 
+\begin{align*}
+	\frac{\partial f}{\partial u} = \begin{pmatrix}
+	0 & 1 & 0 \\ 
+	a & b & 0 \\ 
+	c & d & e
+	\end{pmatrix}
+\end{align*}
+with $a=-(\frac{u_2}{u_1})^2 + p'(u_1)$, \\
+ $b=2(\frac{u_2}{u_1})$, \\
+ $c=\frac{u_2 p'(u_1)}{u_1} - \frac{u_2(u_3 + p(u_1))}{u_1^2}$, \\
+ $d = \frac{u_3 + p(u_1)}{u_1}$, \\
+ and $e=\frac{u_2u_3}{u_1}$
+\\ \\
+To get the eigenvalues, we look at the roots of the characteristic polynomial of this matrix 
+\begin{align*}
+	\lambda^3 -e \lambda^2 - b \lambda^2 + b e \lambda -a \lambda + a e = 0
+\end{align*}
+which gives us the three eigenvalues 
+\begin{align*}
+	\lambda_1 &= \frac{1}{2} (b - \sqrt{4a+b^2}) \\
+	\lambda_2 &= \frac{1}{2} (b + \sqrt{4a+b^2}) \\
+	\lambda_3 &= e
+\end{align*}
+Plugging in the actual values of $a,b,$ and $e$, we get 
+\begin{align*}
+	\lambda_1 &= \frac{u_2}{u_1} - \sqrt{p'(u_1)} \\
+	\lambda_2 &= \frac{u_2}{u_1} + \sqrt{p'(u_1)} \\
+	\lambda_3 &= \frac{u_2u_3}{u_1}
+\end{align*}
