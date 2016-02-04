@@ -1,7 +1,8 @@
 \BOOKMARK [1][-]{section.1}{Conservation laws}{}% 1
-\BOOKMARK [1][-]{section.2}{Heat Equation}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Flux vector}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Q\(t\)}{section.2}% 4
-\BOOKMARK [1][-]{section.3}{Discretization and implementation}{}% 5
-\BOOKMARK [1][-]{section.4}{Numerical results}{}% 6
-\BOOKMARK [1][-]{section.5}{Refinements}{}% 7
+\BOOKMARK [2][-]{subsection.1.1}{Hyperbolicity}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Heat Equation}{}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Flux vector}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.2}{Q\(t\)}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Discretization and implementation}{}% 6
+\BOOKMARK [1][-]{section.4}{Numerical results}{}% 7
+\BOOKMARK [1][-]{section.5}{Refinements}{}% 8

@@ -1,9 +1,9 @@
 We are given the following Euler equations in $u=(\rho, \rho v, E)$, 
-\begin{align*}
+\begin{align}
 	\rho_t + (\rho v)_x &= 0 \quad  \text{(Conservation of mass)} \\
 	(\rho v)_t +(\rho v^2 + p)_x &= 0 \quad \text{(Conservation of momentum)} \\
 	E_t + (v(E+p))_x &= 0 \quad \text{(Conservation of energy)}
-\end{align*}
+\end{align}
 and the variable change $u = (\rho, \rho v, E) = (u_1, u_2, u_3)$. We then have 
 \begin{align*}
 	f(u) = (f_1, f_2, f_3)^T = (u_2, u_2^2/u_1 + p(u_1), u_2(u_3+p(u_1))/u_1)
@@ -28,7 +28,7 @@ with $a=-(\frac{u_2}{u_1})^2 + p'(u_1)$, \\
  $b=2(\frac{u_2}{u_1})$, \\
  $c=\frac{u_2 p'(u_1)}{u_1} - \frac{u_2(u_3 + p(u_1))}{u_1^2}$, \\
  $d = \frac{u_3 + p(u_1)}{u_1}$, \\
- and $e=\frac{u_2u_3}{u_1}$
+ and $e=\frac{u_2}{u_1}$
 \\ \\
 To get the eigenvalues, we look at the roots of the characteristic polynomial of this matrix 
 \begin{align*}
@@ -44,5 +44,31 @@ Plugging in the actual values of $a,b,$ and $e$, we get
 \begin{align*}
 	\lambda_1 &= \frac{u_2}{u_1} - \sqrt{p'(u_1)} \\
 	\lambda_2 &= \frac{u_2}{u_1} + \sqrt{p'(u_1)} \\
-	\lambda_3 &= \frac{u_2u_3}{u_1}
+	\lambda_3 &= \frac{u_2}{u_1}
 \end{align*}
+After computing, we get the corresponding eigenvectors 
+\begin{align*}
+\begin{pmatrix}
+1 \\
+ \frac{u_2}{u_1} - \sqrt{p'(u_1 )} \\
+ \frac{u2 \sqrt{p'(u_1)}-(u_3+p(u_2)))}{u_1} 
+\end{pmatrix}, \quad \begin{pmatrix}
+1 \\
+ \frac{u_2}{u_1} + \sqrt{p'(u_1 )} \\
+ \frac{u2 \sqrt{p'(u_1)}+(u_3+p(u_2)))}{u_1} 
+\end{pmatrix}, \quad \begin{pmatrix}
+ 0 \\
+ 0  \\
+ 1 \\
+\end{pmatrix}
+\end{align*}
+\subsection{Hyperbolicity}
+Using the u coordinates, we can write equations (1), (2), (3) as
+\begin{align*}
+	u_t + f(u)_x = 0
+\end{align*}
+From the chain rule, we can rewrite our equation as  
+\begin{align*}
+	u_t + \frac{\partial f}{\partial u} u_x
+\end{align*}
+We know that an equation of this form is hyperbolic if $\frac{\partial f}{\partial u}$ has real eigenvalues and linearly independent eigenvectors. It can be seen easily that the eigenvalues are real as long as $p'(u_1) \geq 0$. WHAT ABOUT EIGEN VECTORS? can p' = 0??
