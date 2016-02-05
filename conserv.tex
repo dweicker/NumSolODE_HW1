@@ -8,6 +8,14 @@ and the variable change $u = (\rho, \rho v, E) = (u_1, u_2, u_3)$. We then have
 \begin{align*}
 	f(u) = (f_1, f_2, f_3)^T = (u_2, u_2^2/u_1 + p(u_1), u_2(u_3+p(u_1))/u_1)
 \end{align*}
+Using the u coordinates, we can write equations (1), (2), (3) as
+\begin{align*}
+	u_t + f(u)_x = 0
+\end{align*}
+From the chain rule, we can rewrite our equation as  
+\begin{align}
+	u_t + \frac{\partial f}{\partial u} u_x = 0
+\end{align}
 We now wish to find the eigenvalues and eigenvectors of the matrix 
 \begin{align*}
 	\frac{\partial f}{\partial u} = \begin{pmatrix}
@@ -62,13 +70,36 @@ After computing, we get the corresponding eigenvectors
  1 \\
 \end{pmatrix}
 \end{align*}
+\subsection{Linearisation}
+We use formal linearisation, so we first define
+\begin{align*}
+	u' = \begin{pmatrix}
+	u_1' \\
+	u_2' \\ 
+	u_3' \\
+	\end{pmatrix} = \begin{pmatrix}
+	U_1+\delta \upsilon_1 \\
+	U_2+\delta \upsilon_2 \\
+	U_3+\delta \upsilon_3 \\
+	\end{pmatrix}
+\end{align*}
+where $U_{1,2,3}$ is a solution of the (1) and $\delta$ is assumed to be small. Inserting $u'$ into (1), we get
+\begin{align*}
+	u'_t + \frac{\partial f}{\partial u'} u'_x = 0 \rightarrow \\
+	(u_1')_t + (u_2')_x = 0 \\
+	(u_2')_t+(-(\frac{u_2'}{u_1'})^2 + p'(u_1'))(u_1)_x + 2(\frac{u_2'}{u_1'})(u_2')_x = 0 \\
+	(u_3')_t+(\frac{u_2' p'(u_1)}{u_1} - \frac{u_2'(u_3' + p(u_1'))}{u_1'^2})(u_1')_x + 
+	(\frac{u_3' + p(u_1')}{u_1'})(u_2')_x + \frac{u_2'}{u_1'}(u_3') = 0
+\end{align*}
+We linearise each equation separately
+\begin{align*}
+	(u_2')_t+(-(\frac{u_2'}{u_1'})^2 + p'(u_1'))(u_1)_x + 2(\frac{u_2'}{u_1'})(u_2')_x = 0 \rightarrow \\
+	-u_2'^2(u_1)_x + u_1'^2p'(u_1')(u_1)_x + 2(u_2'u_1')(u_2')_x = 0 \rightarrow \\
+	2p'(u_1')\delta \upsilon_1 U_1 + U_2^2 (\delta \upsilon_1)_x  +  \\ + \delta \upsilon_2 ( U_1(U_2)_x +  U_1 U_2 (U_2)_x + 2 U_2 (U_1)_x) + U_2 U_1 (\delta \upsilon_2)_x + U_2^2 (U_1)_x + U_2U_1(U_2)_x + p'(u_1')U_1^2 O(\delta^2)= 0
+\end{align*}
+because $\delta$ is assumed to be small, we disregard the terms of $O(\delta^2)$. Dividing by $\delta$, we get our linear equation with variable coefficients
+\begin{align*}
+a_2 \upsilon_1 + b_2 (\upsilon_1)_x + c_2 \upsilon
+\end{align*}
 \subsection{Hyperbolicity}
-Using the u coordinates, we can write equations (1), (2), (3) as
-\begin{align*}
-	u_t + f(u)_x = 0
-\end{align*}
-From the chain rule, we can rewrite our equation as  
-\begin{align*}
-	u_t + \frac{\partial f}{\partial u} u_x
-\end{align*}
 We know that an equation of this form is hyperbolic if $\frac{\partial f}{\partial u}$ has real eigenvalues and linearly independent eigenvectors. It can be seen easily that the eigenvalues are real as long as $p'(u_1) \geq 0$. WHAT ABOUT EIGEN VECTORS? can p' = 0??
