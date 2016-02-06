@@ -93,9 +93,12 @@ $$M = B + C$$
 
 Now that the problem is spatially discretized, we can start solving the system of ODE's. Let us first introduce the time step $\Delta t$ and some notation :
 $$Qvect^{(T)} \approx Qvect(T\Delta t)$$
-$$S_k^{(T)} \approx \iint_{(i,j)} S(x,y,T\Delta t)dxdy$$
+$$S_k^{(T)} \approx \frac{1}{\Delta x \Delta y}\iint_{(i,j)} S(x,y,T\Delta t)dxdy$$
 
-Because, for the second heat source, $S$ depends on $t$. We can now use implicit euler for the time derivative. We also have to remember that $M$ does not depends on $t$ and thus :
+Because, for the second heat source, $S$ depends on $t$. We also have to numerically compute the mean of the heat source on each cell. We will use the classic central point approximation. 
+$$S_k^{(T)} = S(x_i,y_j,T\Delta t)$$
+
+We can now use implicit euler for the time derivative. We also have to remember that $M$ does not depends on $t$ and thus :
 
 $$\frac{Qvect^{(T+1)}-Qvect^{(T)}}{\Delta t} = MQvect^{(T+1)} + S^{(T+1)}$$
 
@@ -106,3 +109,16 @@ $Qvect^{(0)}$ is filled with zeroes because of the initial condition and the equ
 
 
 Here, implicit euler is used because the problem is stiff ($M$ has eigenvalues of very different magnitudes). Thus, an explicit method would require us to take a very little time step in order to have a stable solution. The use of an implicit method allows us to take a much bigger time step and thus to be more efficient.
+
+\subsection{Problem in matrix form}
+
+
+\subsection{Approximation of the dirac}
+Remember that the discretized problem says : 
+$$S_k^{(T)} = S(x_i,y_j,T\Delta t)$$
+
+But, when $S$ is the dirac function, we cannot do that because it is impossible to evaluate the dirac function. So, we will approximate it by the given function.
+
+\subsection{Implementation}
+The Matlab code for the implementation of the finite volume method for this problem can be found at the end of the report.
+

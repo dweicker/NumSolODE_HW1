@@ -27,7 +27,7 @@ q = zeros(n*m,T+1);
 Q = zeros(m,n,T+1);
 %The heat source is the dirac function
 if strcmp(fct,'dirac')
-    ep = 1e-10*sqrt(max([hx hy]));
+    ep = sqrt(max([hx hy]));
     r = sqrt((x-0.5).^2+(y-0.5).^2);
     delta = (1+cos(pi*r))./(2*ep).*(r<ep);
     for i = 1:T

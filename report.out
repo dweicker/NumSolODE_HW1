@@ -7,5 +7,8 @@
 \BOOKMARK [1][-]{section.3}{Discretization and implementation}{}% 7
 \BOOKMARK [2][-]{subsection.3.1}{Finite Volume method}{section.3}% 8
 \BOOKMARK [2][-]{subsection.3.2}{Implicit Euler}{section.3}% 9
-\BOOKMARK [1][-]{section.4}{Numerical results}{}% 10
-\BOOKMARK [1][-]{section.5}{Refinements}{}% 11
+\BOOKMARK [2][-]{subsection.3.3}{Problem in matrix form}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.4}{Approximation of the dirac}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.5}{Implementation}{section.3}% 12
+\BOOKMARK [1][-]{section.4}{Numerical results}{}% 13
+\BOOKMARK [1][-]{section.5}{Refinements}{}% 14
