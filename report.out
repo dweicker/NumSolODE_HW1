@@ -5,5 +5,7 @@
 \BOOKMARK [2][-]{subsection.2.1}{Flux vector}{section.2}% 5
 \BOOKMARK [2][-]{subsection.2.2}{Q\(t\)}{section.2}% 6
 \BOOKMARK [1][-]{section.3}{Discretization and implementation}{}% 7
-\BOOKMARK [1][-]{section.4}{Numerical results}{}% 8
-\BOOKMARK [1][-]{section.5}{Refinements}{}% 9
+\BOOKMARK [2][-]{subsection.3.1}{Finite Volume method}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.2}{Implicit Euler}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Numerical results}{}% 10
+\BOOKMARK [1][-]{section.5}{Refinements}{}% 11

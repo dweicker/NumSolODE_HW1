@@ -1,1 +1,108 @@
-blabla yo!
+In this section, we will implement a finite volume method to solve the problem given.
+
+\subsection{Finite Volume method}
+First, we need to define the method used. Let us start with the PDE and take the average over cell $(i,j)$.
+
+$$\frac{1}{\Delta x \Delta y}\iint_{(i,j)} q_t dxdy = \frac{1}{\Delta x \Delta y} (\iint_{(i,j)} \nabla \cdot (\nabla q)dxdy + \iint_{(i,j)} S\: dxdy) $$
+
+Using the definition of $Q_{ij}$, divergence theorem and defining $S_{ij}(t) =\frac{1}{\Delta x \Delta y}\iint_{(i,j)} S\: dxdy$ , we get :
+$$\frac{dQ_{ij}}{dt} = \frac{1}{\Delta x \Delta y}\oint_{(i,j)} \nabla q \cdot \textbf{n}\: ds + S_{ij}(t)$$
+
+Because each cell is a rectangle, the first term in the right-hand side can be expressed as the sum of the integral evaluated at each side (East, North, West and South) : 
+$$\oint_{(i,j)} \nabla q \cdot \textbf{n}\: ds = \int_E q_x dy+\int_N q_ydx-\int_Wq_xdy-\int_Sq_ydx$$
+
+The next step is to discretize those integral. We will use finite differences. Let us assume that we are not on the boundary.
+
+\begin{align*}
+\int_E q_xdy &\approx \Delta y \frac{Q_{i+1,j}-Q_{i,j}}{\Delta x}\\
+\int_W q_xdy &\approx -\Delta y \frac{Q_{i-1,j}-Q_{i,j}}{\Delta x}\\
+\int_N q_ydx &\approx \Delta x \frac{Q_{i,j+1}-Q_{i,j}}{\Delta y}\\
+\int_S q_ydx &\approx -\Delta x \frac{Q_{i,j-1}-Q_{i,j}}{\Delta y}
+\end{align*}
+
+If we are on the boundary, we use the boundary condition to have : 
+\begin{align*}
+i=1 &\implies \int_W q_ydx = 0\\
+i=m &\implies \int_E q_ydx = 0\\
+j=1 &\implies \int_S q_xdy = 0\\
+j=n &\implies \int_N q_xdy = 0
+\end{align*}
+
+Using the finite differences above, in general, we have the following discrete equation : 
+$$\frac{dQ_{ij}}{dt} = \frac{aQ_{i+1,j}+bQ_{i,j}+cQ_{i-1,j}}{\Delta x^2}+\frac{dQ_{i,j+1}+eQ_{i,j}+fQ_{i,j-1}}{\Delta y^2}+S_{ij}(t)$$
+
+Where $a,b,c,d,e,f$ are given in the two tables below : 
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ & a & b & c \\ 
+\hline 
+i = 1 & 1 & -1 & 0 \\ 
+\hline 
+i = 2:m-1 & 1 & -2 & 1 \\ 
+\hline 
+i = m & 0 & -1 & 1 \\ 
+\hline 
+\end{tabular} 
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ & d & e & f \\ 
+\hline 
+j = 1 & 1 & -1 & 0 \\ 
+\hline 
+j = 2:n-1 & 1 & -2 & 1 \\ 
+\hline 
+j = n & 0 & -1 & 1 \\ 
+\hline 
+\end{tabular} 
+\end{center}
+
+In order to solve this numerically, we also need to rewrite the unknown matrix $Q$ as a vector. We do this by defining $Qvect$ as :
+$$Qvect_k = Q_{i,j}   \iff k = (j-1)m + i$$
+
+So we now get a system of linear ODE's to solve (where $M$ is a $mn \times mn$ matrix) : 
+$$\frac{dQvect}{dt} = MQvect + S$$
+
+The only remaining thing to do is to build $M$. In order to do this let us define $I$ the $m\times m $ identity matrix and $A$ the following $m\times m $ : 
+$$A = \left(\begin{array}{ccccc}
+-1 & 1 & 0 & \cdots & 0 \\ 
+1 & -2 & 1 & \cdots & 0 \\ 
+0& \ddots & \ddots & \ddots & 0 \\ 
+0 & \cdots & 1 & -2 & 1 \\
+0 & \cdots & 0 & 1 & -1
+\end{array}\right) $$
+
+We can now build $B$, representing the $x$-derivative : 
+$$B = \frac{1}{\Delta x^2}diag(A,n)$$
+
+Where $diag(A,n)$ means a block diagonal matrix composed of $n$ times the matrix $A$. We can check that the size of $B$ is indeed $mn \times mn$ because $A$ is of size $m \times m$.
+
+We can also build $C$, representing the $y$-derivative : 
+$$C = \frac{1}{\Delta y^2}\left(\begin{array}{ccccc}
+-I & I & 0 & \cdots & 0 \\ 
+I & -2I & I & \cdots & 0 \\ 
+0& \ddots & \ddots & \ddots & 0 \\ 
+0 & \cdots & I & -I & I \\
+0 & \cdots & 0 & I & -I
+\end{array}\right) $$
+
+Finally : 
+$$M = B + C$$
+
+\subsection{Implicit Euler}
+
+Now that the problem is spatially discretized, we can start solving the system of ODE's. Let us first introduce the time step $\Delta t$ and some notation :
+$$Qvect^{(T)} \approx Qvect(T\Delta t)$$
+$$S_k^{(T)} \approx \iint_{(i,j)} S(x,y,T\Delta t)dxdy$$
+
+Because, for the second heat source, $S$ depends on $t$. We can now use implicit euler for the time derivative. We also have to remember that $M$ does not depends on $t$ and thus :
+
+$$\frac{Qvect^{(T+1)}-Qvect^{(T)}}{\Delta t} = MQvect^{(T+1)} + S^{(T+1)}$$
+
+If $Id$ is the $mn\times mn$ identity matrix, we have :
+$$(Id-\Delta t M)Qvect^{(T+1)} = Qvect^{(T)} + S^{(T+1)}$$
+
+$Qvect^{(0)}$ is filled with zeroes because of the initial condition and the equation above gives the recursion to compute every $Qvect$. We can then reshape $Qvect$ to obtain the matrix $Q$. \\
+
+
+Here, implicit euler is used because the problem is stiff ($M$ has eigenvalues of very different magnitudes). Thus, an explicit method would require us to take a very little time step in order to have a stable solution. The use of an implicit method allows us to take a much bigger time step and thus to be more efficient.
