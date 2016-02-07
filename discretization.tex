@@ -63,7 +63,7 @@ $$Qvect_k = Q_{i,j}   \iff k = (j-1)m + i$$
 So we now get a system of linear ODE's to solve (where $M$ is a $mn \times mn$ matrix) : 
 $$\frac{dQvect}{dt} = MQvect + S$$
 
-The only remaining thing to do is to build $M$. In order to do this let us define $I$ the $m\times m $ identity matrix and $A$ the following $m\times m $ : 
+The only remaining thing to do is to build $M$. In order to do this let us define $I(c)$ the $c\times c $ identity matrix and $A(c)$ the following $c\times c $ : 
 $$A = \left(\begin{array}{ccccc}
 -1 & 1 & 0 & \cdots & 0 \\ 
 1 & -2 & 1 & \cdots & 0 \\ 
@@ -73,18 +73,18 @@ $$A = \left(\begin{array}{ccccc}
 \end{array}\right) $$
 
 We can now build $B$, representing the $x$-derivative : 
-$$B = \frac{1}{\Delta x^2}diag(A,n)$$
+$$B = \frac{1}{\Delta x^2}I(n)\otimes A(m)$$
 
-Where $diag(A,n)$ means a block diagonal matrix composed of $n$ times the matrix $A$. We can check that the size of $B$ is indeed $mn \times mn$ because $A$ is of size $m \times m$.
+Where $\otimes$ is the kronecker product. We can check that the size of $B$ is indeed $mn \times mn$ because $A(m)$ is of size $m \times m$.
 
 We can also build $C$, representing the $y$-derivative : 
 $$C = \frac{1}{\Delta y^2}\left(\begin{array}{ccccc}
--I & I & 0 & \cdots & 0 \\ 
-I & -2I & I & \cdots & 0 \\ 
+-I(m) & I(m) & 0 & \cdots & 0 \\ 
+I(m) & -2I(m) & I(m) & \cdots & 0 \\ 
 0& \ddots & \ddots & \ddots & 0 \\ 
-0 & \cdots & I & -I & I \\
-0 & \cdots & 0 & I & -I
-\end{array}\right) $$
+0 & \cdots & I(m) & -2I(m) & I(m) \\
+0 & \cdots & 0 & I(m) & -I(m)
+\end{array}\right) =\frac{1}{\Delta y^2} A(n)\otimes I(m)$$
 
 Finally : 
 $$M = B + C$$
@@ -111,6 +111,78 @@ $Qvect^{(0)}$ is filled with zeroes because of the initial condition and the equ
 Here, implicit euler is used because the problem is stiff ($M$ has eigenvalues of very different magnitudes). Thus, an explicit method would require us to take a very little time step in order to have a stable solution. The use of an implicit method allows us to take a much bigger time step and thus to be more efficient.
 
 \subsection{Problem in matrix form}
+It is convenient to use the matrix form because we do not have to think about changing lines to take the boundary conditions into account and we thus avoid kronecker products.
+
+If we use this to state the problem, we have : 
+$$\frac{dQ}{dt}=QT_x+T_yQ+S$$
+
+Using implicit euler and the same notation as before, we get :
+$$\frac{Q^{(T+1)}-Q^{(T)}}{\Delta t} = Q^{(T+1)}T_x+T_yQ^{(T+1)}+S$$
+$$Q^{(T+1)} - \Delta t Q^{(T+1)}T_x - \Delta t T_yQ^{(T+1)} = Q^{(T)}+\Delta t S$$
+
+This recursion equation is unfortunately not solvable because $Q^{(T+1)}$ is multiplied on the left once and on the right another time. This is why we have to write $Q$ as a vector to solve the problem with implicit euler.
+
+However, the matrix form allows us to prove that the finite volume method is exactly conservative. Indeed, since the walls are insulated, if the source term is 0, we should keep the same amount of heat in the domain.
+$$\frac{d}{dt}\int_0^1\int_0^1 Qdxdy = 0$$
+
+Let us see if that is indeed the case for our method. Because $Q_{ij}$ is defined as the average on cell $(i,j)$, we have that :
+$$\int_0^1\int_0^1 Qdxdy = \Delta x \Delta y \sum_i\sum_j Q_{ij}$$
+
+So we only have to prove that, in the absence of a source term, the sum of all entries does not vary in time. Since summing a matrix is multiply it by vectors filled with zeroes :
+$$\frac{d}{dt}(\left(\begin{array}{ccc}
+1 & \cdots & 1
+\end{array}\right) Q \left(\begin{array}{c}
+1 \\ 
+\vdots \\ 
+1
+\end{array}\right) ) = \left(\begin{array}{ccc}
+1 & \cdots & 1
+\end{array}\right) \frac{dQ}{dt} \left(\begin{array}{c}
+1 \\ 
+\vdots \\ 
+1
+\end{array}\right)$$
+
+Using our scheme (and remembering that the source term is 0...), we get : 
+$$ \left(\begin{array}{ccc}
+1 & \cdots & 1
+\end{array}\right) \frac{dQ}{dt} \left(\begin{array}{c}
+1 \\ 
+\vdots \\ 
+1
+\end{array}\right)=\left(\begin{array}{ccc}
+1 & \cdots & 1
+\end{array}\right)QT_x \left(\begin{array}{c}
+1 \\ 
+\vdots \\ 
+1
+\end{array}\right) +\left(\begin{array}{ccc}
+1 & \cdots & 1
+\end{array}\right)T_yQ\left(\begin{array}{c}
+1 \\ 
+\vdots \\ 
+1
+\end{array}\right)$$
+
+Because of the structure of $T_x$ and $T_y$, we also have :
+$$T_x \left(\begin{array}{c}
+1 \\ 
+\vdots \\ 
+1
+\end{array}\right)=\left(\begin{array}{c}
+0 \\ 
+\vdots \\ 
+0
+\end{array}\right)$$
+$$\left(\begin{array}{ccc}
+1 & \cdots & 1
+\end{array}\right)T_y=\left(\begin{array}{ccc}
+0 & \cdots & 0
+\end{array}\right)$$
+
+So the right hand side is equal to zero.
+
+We can then conclude that the finite volume method is exactly conservative.
 
 
 \subsection{Approximation of the dirac}
