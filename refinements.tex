@@ -1,1 +1,46 @@
-blabla
+\subsection{Variable coefficients}
+In this part, we will change the equation a little and add variable coefficients so that the equation becomes : 
+$$q_t = a(y)q_{xx}+b(x)q_{yy}+S$$
+
+Using the same principles as in section 3, we get the following :
+$$\frac{1}{\Delta x \Delta y} \iint_{(i,j)} q_tdxdy = \frac{1}{\Delta x \Delta y} \iint_{(i,j)} \nabla \cdot \left(\begin{array}{c}
+a(y)q_x \\ 
+b(x)q_y
+\end{array}\right) dxdy + \frac{1}{\Delta x \Delta y}\iint_{(i,j)}Sdxdy $$ 
+$$\frac{dQ_{ij}}{dt} = \frac{1}{\Delta x \Delta y}(\int_E a(y)q_xdy + \int_N b(x)q_ydx - \int_Wa(y)q_xdy - \int_S b(x)q_ydx) + S_{ij}$$
+
+Using finite differences to evaluate $q_x$ and $q_y$, we get : 
+$$\frac{dQ_{ij}}{dt} = E\frac{aQ_{i+1,j}+bQ_{i,j}+cQ_{i-1,j}}{\Delta x^2}+F\frac{dQ_{i,j+1}+eQ_{i,j}+fQ_{i,j-1}}{\Delta y^2}+S_{ij}$$
+
+Where $a,b,c,d,e,f$ are the same coefficients as those defined in section 3.1. $E$ and $F$ take into account the variable coefficient and are defined by : 
+$$E = \frac{1}{\Delta y}\int_E a(y)dy= \frac{1}{\Delta y}\int_W a(y)dy$$
+$$F = \frac{1}{\Delta x}\int_N b(x)dx= \frac{1}{\Delta x}\int_S b(x)dx$$
+
+So, if we use the same notations as in section 3.1, the only thing we have to do is premultiply $B$ and $C$ with the corresponding matrix and after that, the implementation is unchanged. We can note that if $a(y)=b(x)=1$ then $E$ and $F$ are identity matrices and we have the same rule as previously.
+
+In this problem, we have always used the smooth source term. We also have used the trapezoidal rule to evaluate the integral. Let us define $A1$ the $n \times n$ matrix as :
+$$A1 = diag(0.5(a(0)+a(\Delta y)),0.5(a(\Delta y)+a(2\Delta y)),...,0.5(a((n-1)\Delta y)+a(1)))$$
+
+Which is a diagonal matrix containing the different evaluations of the integral of $a$. With this matrix, we can build $B$ as :
+$$B1 = (A1\otimes I(m))*B$$
+
+Identically, we can define $A2$ as :
+$$A2 = diag(0.5(b(0)+b(\Delta x)),0.5(b(\Delta x)+b(2\Delta x)),...,0.5(b((m-1)\Delta x)+b(1)))$$
+
+And then : 
+$$C1 = (I(n)\otimes A2)*C$$
+And finally : 
+$$M = B1 + C1$$
+
+Once we have build $M$, the methodology is exactly the same as before.
+
+The implementation of the method is done in $variableCoeff.m$.
+
+
+
+\subsection{Boundary conditions}
+We are now going to try and change the boundary conditions to see what happens. We have a Neuman condition on the left and right boundaries (just as before except it is no longer homogeneous). And we now have a Dirichlet condition on the upper and lower boundaries. Because in the previous grid, we had no point exactly on the boundary, we are going to shift the grid of $\frac{\Delta y}{2}$ in the y-direction. That way, we will have cells at $y=0$ and $y=1$. If we still keep $n\Delta y =1$, that means that we will now have $m(n-1)$ unknowns since the value on the upper and lower boundaries are known.
+
+
+
+

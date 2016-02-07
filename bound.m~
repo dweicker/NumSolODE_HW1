@@ -47,10 +47,10 @@ end
 end
 
 function q0 = southBound(x)
-q0 = sin(pi*x)/pi;
+q0 = ones(size(x));
 end
 function q1 = northBound(x)
-q1 = sin(3*pi*x)/(3*pi)+1;
+q1 = 2*ones(size(x));
 end
 
 
