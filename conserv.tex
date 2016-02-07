@@ -54,7 +54,45 @@ Plugging in the actual values of $a,b,$ and $e$, we get
 	\lambda_2 &= \frac{u_2}{u_1} + \sqrt{p'(u_1)} \\
 	\lambda_3 &= \frac{u_2}{u_1}
 \end{align*}
-After computing, we get the corresponding eigenvectors 
+We compute the eigenvectors as follows
+\begin{align*}
+\begin{pmatrix}
+	0 & 1 & 0 \\ 
+	a & b & 0 \\ 
+	c & d & e
+	\end{pmatrix} \begin{pmatrix}
+	u_1 \\ u_2 \\ u_3
+	\end{pmatrix} = \lambda_1 \begin{pmatrix}
+	u_1 \\ u_2 \\ u_3
+	\end{pmatrix}
+\end{align*}
+which gives the system of equations
+\begin{align*}
+u_2 &= (\frac{u_2}{u_1} - \sqrt{p'(u_1)}) u_1 \\
+au_1 + bu_2 &= (\frac{u_2}{u_1} - \sqrt{p'(u_1)}) u_2 \\
+cu_1 + du_2 + eu_3 &= (\frac{u_2}{u_1} - \sqrt{p'(u_1)}) u_3
+\end{align*}
+We pick $u_1 = 0$, and after solving we get 
+\begin{align*}
+\begin{pmatrix}
+u_1 \\ u_2 \\u_3
+\end{pmatrix} = {pmatrix}
+1 \\
+ \frac{u_2}{u_1} - \sqrt{p'(u_1 )} \\
+ \frac{u2 \sqrt{p'(u_1)}-(u_3+p(u_2)))}{u_1} 
+\end{pmatrix}
+\end{align*}
+We compute the second eigenvalue similarly and get 
+\begin{align*}
+\begin{pmatrix}
+u_1 \\ u_2 \\u_3
+\end{pmatrix} = \begin{pmatrix}
+1 \\
+ \frac{u_2}{u_1} + \sqrt{p'(u_1 )} \\
+ \frac{u2 \sqrt{p'(u_1)}+(u_3+p(u_2)))}{u_1} 
+\end{pmatrix}
+\end{align*}
+The last eigenvalue is computed from the system of equations
 \begin{align*}
 \begin{pmatrix}
 1 \\
@@ -71,56 +109,81 @@ After computing, we get the corresponding eigenvectors
 \end{pmatrix}
 \end{align*}
 \subsection{Linearisation}
-We use formal linearisation, so we first define
+%We use formal linearisation, so we first define
+%\begin{align*}
+%	u' = \begin{pmatrix}
+%	u_1' \\
+%	u_2' \\ 
+%	u_3' \\
+%	\end{pmatrix} = \begin{pmatrix}
+%	U_1+\delta \upsilon_1 \\
+%	U_2+\delta \upsilon_2 \\
+%	U_3+\delta \upsilon_3 \\
+%	\end{pmatrix}
+%\end{align*}
+%where $U_{1,2,3}$ is a solution of the (1) and $\delta$ is assumed to be small. Inserting $u'$ into (1), we get
+%\begin{align*}
+%	u'_t + \frac{\partial f}{\partial u'} u'_x = 0 \rightarrow \\
+%	(u_1')_t + (u_2')_x = 0 \\
+%	(u_2')_t+(-(\frac{u_2'}{u_1'})^2 + p'(u_1'))(u_1)_x + 2(\frac{u_2'}{u_1'})(u_2')_x = 0 \\
+%	(u_3')_t+(\frac{u_2' p'(u_1)}{u_1} - \frac{u_2'(u_3' + p(u_1'))}{u_1'^2})(u_1')_x + 
+%	(\frac{u_3' + p(u_1')}{u_1'})(u_2')_x + \frac{u_2'}{u_1'}(u_3') = 0
+%\end{align*}
+%We linearise each equation separately
+%\begin{align*}
+%	(u_2')_t+(-(\frac{u_2'}{u_1'})^2 + p'(u_1'))(u_1)_x + 2(\frac{u_2'}{u_1'})(u_2')_x = 0 \rightarrow \\
+%	-u_2'^2(u_1)_x + u_1'^2p'(u_1')(u_1)_x + 2(u_2'u_1')(u_2')_x = 0 \rightarrow \\
+%	2p'(u_1')\delta \upsilon_1 U_1 + U_2^2 (\delta \upsilon_1)_x  +  \\ + \delta \upsilon_2 ( U_1(U_2)_x +  U_1 U_2 (U_2)_x + 2 U_2 (U_1)_x) + U_2 U_1 (\delta \upsilon_2)_x + U_2^2 (U_1)_x + U_2U_1(U_2)_x + p'(u_1')U_1^2 O(\delta^2)= 0
+%\end{align*}
+%because $\delta$ is assumed to be small, we disregard the terms of $O(\delta^2)$. Dividing by $\delta$, we get our linear equation with variable coefficients
+%\begin{align*}
+%a_2 \upsilon_1 + b_2 (\upsilon_1)_x + c_2 \upsilon
+%\end{align*}
+We have
+\begin{align}
+	u_t + \frac{\partial f}{\partial u} u_x = 0
+\end{align}
+where $\frac{\partial f}{\partial u}$ is dependent on $u$. This equation immediately becomes linear if we fix $\frac{\partial f}{\partial u}$ at a specific point. We call it 
+$u_0$, and we denote $\frac{\partial f}{\partial u}(u_0)$ as $\frac{\partial f}{\partial u}$ evaluated at this point. Thus, we have a linear equation 
 \begin{align*}
-	u' = \begin{pmatrix}
-	u_1' \\
-	u_2' \\ 
-	u_3' \\
-	\end{pmatrix} = \begin{pmatrix}
-	U_1+\delta \upsilon_1 \\
-	U_2+\delta \upsilon_2 \\
-	U_3+\delta \upsilon_3 \\
-	\end{pmatrix}
+u_t + \frac{\partial f}{\partial u}(u_0) u_x = 0
 \end{align*}
-where $U_{1,2,3}$ is a solution of the (1) and $\delta$ is assumed to be small. Inserting $u'$ into (1), we get
-\begin{align*}
-	u'_t + \frac{\partial f}{\partial u'} u'_x = 0 \rightarrow \\
-	(u_1')_t + (u_2')_x = 0 \\
-	(u_2')_t+(-(\frac{u_2'}{u_1'})^2 + p'(u_1'))(u_1)_x + 2(\frac{u_2'}{u_1'})(u_2')_x = 0 \\
-	(u_3')_t+(\frac{u_2' p'(u_1)}{u_1} - \frac{u_2'(u_3' + p(u_1'))}{u_1'^2})(u_1')_x + 
-	(\frac{u_3' + p(u_1')}{u_1'})(u_2')_x + \frac{u_2'}{u_1'}(u_3') = 0
-\end{align*}
-We linearise each equation separately
-\begin{align*}
-	(u_2')_t+(-(\frac{u_2'}{u_1'})^2 + p'(u_1'))(u_1)_x + 2(\frac{u_2'}{u_1'})(u_2')_x = 0 \rightarrow \\
-	-u_2'^2(u_1)_x + u_1'^2p'(u_1')(u_1)_x + 2(u_2'u_1')(u_2')_x = 0 \rightarrow \\
-	2p'(u_1')\delta \upsilon_1 U_1 + U_2^2 (\delta \upsilon_1)_x  +  \\ + \delta \upsilon_2 ( U_1(U_2)_x +  U_1 U_2 (U_2)_x + 2 U_2 (U_1)_x) + U_2 U_1 (\delta \upsilon_2)_x + U_2^2 (U_1)_x + U_2U_1(U_2)_x + p'(u_1')U_1^2 O(\delta^2)= 0
-\end{align*}
-because $\delta$ is assumed to be small, we disregard the terms of $O(\delta^2)$. Dividing by $\delta$, we get our linear equation with variable coefficients
-\begin{align*}
-a_2 \upsilon_1 + b_2 (\upsilon_1)_x + c_2 \upsilon
-\end{align*}
+which behaves like the nonlinear equation in a neighbourhood around $u_0$. 
 \subsection{Hyperbolicity}
-We know that an equation of this form is hyperbolic if $\frac{\partial f}{\partial u}$ has real eigenvalues and linearly independent eigenvectors. It can be seen easily that the eigenvalues are real as long as $p'(u_1) \geq 0$. WHAT ABOUT EIGEN VECTORS? can p' = 0??
+We know that an equation of this form is hyperbolic if $\frac{\partial f}{\partial u}$ has real eigenvalues and linearly independent eigenvectors. It can be seen easily that the eigenvalues are real as long as $p'(u_1) \geq 0$. We can also see that the eigenvectors are independent as long as either $p'(u_1) \neq 0$ or $u_3+p(u_2) \neq 0$
 \subsection{Transport Equation}
 We now derive conditions on $a$ and $b$ for the two-dimensional transport equation 
 \begin{align*}
 u_t + a(x,y)u_x + b(x,y) u_y = 0
 \end{align*} to be a conservation law. 
-we can rewrite the equation in the differential form for conservation laws as 
+we look at the basic form of a conservation law in two dimensions
+\begin{align}
+u_t + \nabla f(u) = 0
+\end{align}
+and we find conditions which enable us to write our transport equation in this form. 
+We assume 
 \begin{align*}
-u_t + f(u)_x = u_t + \frac{\partial f}{\partial u} \nabla u =  u_t + \begin{pmatrix}
+f = \begin{pmatrix}
 a(x,y) & b(x,y)
-\end{pmatrix} \nabla u = 0
+\end{pmatrix}
 \end{align*}
-where $f$ is the flux equation. Thus, to have a conservation law, we need
+so plugging into $(5)$ we get
 \begin{align*}
-\begin{pmatrix}
+u_t + \nabla (\begin{pmatrix}
 a(x,y) & b(x,y)
-\end{pmatrix} = \frac{\partial f}{\partial u}
+\end{pmatrix} u) = u_t + (a(x,y))_x u + a(x,y) u_x + (b(x,y))_y u + b(x,y) u_y = 0
 \end{align*}
-This would mean that 
+We now notice that if 
 \begin{align*}
-\int of a(x,y) du_1 = \int b(x,y) du_2
+(a(x,y))_x = - (b(x,y))_y
 \end{align*}
+we get 
+\begin{align*}
+u_t + \nabla (\begin{pmatrix}
+a(x,y) & b(x,y)
+\end{pmatrix} u) = u_t + a(x,y) u_x + b(x,y) u_y = 0
+\end{align*}
+which is our two dimensional transportation equation. Thus,
+\begin{align*}
+(a(x,y))_x = - (b(x,y))_y
+\end{align*} is our conservation law condition. 
