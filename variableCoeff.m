@@ -1,0 +1,62 @@
+function [Q,X,Y,Tax] = variableCoeff(m,n,ht,T)
+%VARIABLECOEFF We here implement a solver where a(y) and b(x) can be any
+%smooth positive function. For the source term, we always use the smooth
+%function.
+
+hx = 1/m;
+hy = 1/n;
+
+%Definition of the axis
+X = (0.5:m-0.5)'*hx;
+Y = (0.5:n-0.5)'*hy;
+Tax = (0:T)'*ht;
+
+%Construction of the stencil
+e = ones(m,1);
+M = spdiags([e -2*e e],-1:1,m,m);
+M(1,1) = -1;
+M(m,m) = -1;
+A = kron(speye(n),M);
+f = ones(n,1);
+N = spdiags([f -2*f f],-1:1,n,n);
+N(1,1) = -1;
+N(n,n) = -1;
+B = kron(N,speye(m));
+%This part takes a(y) and b(x) into account!
+A1 = a(0:hy:1);
+A1 = (A1(1:end-1)+A1(2:end))/2;
+A1 = kron(diag(A1),speye(m));
+B1 = b(0:hx:1);
+B1 = (B1(1:end-1)+B1(2:end))/2;
+B1 = kron(speye(n),diag(B1));
+
+C = A1*A/(hx*hx)+B1*B/(hy*hy);
+
+
+%This part is the same as in eulerImpl!
+%LU-decomposition
+K = speye(n*m)-ht*C;
+[L,U,P,V,R] = lu(K);
+
+x = kron(ones(n,1),X);
+y = kron(Y,ones(m,1));
+q = zeros(n*m,T+1);
+Q = zeros(n,m,T+1);
+
+%The heat source is the smooth function    
+S = exp(-((x-0.5).^2+(y-0.5).^2)/0.04);
+for i = 1:T
+    q(:,i+1) = V*(U\(L\(P*((q(:,i)+ht*S)./diag(R)))));
+    Q(:,:,i+1) = reshape(q(:,i+1),m,n)';
+end
+
+end
+
+%Definition of a(y) and b(x)
+function A = a(y)
+A = y.*y;
+end
+function B = b(x)
+B = x.*x;
+end
+
