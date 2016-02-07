@@ -1,4 +1,4 @@
-function [Q,X,Y,Tax] = eulerImpl(m,n,ht,T,fct)
+function [Q,X,Y,Tax] = eulerImpl(m,n,ht,T,fct,alpha)
 %EULERIMPL Solves the problem with n cells in the x-direction and m cells
 %in the y-direction
 hx = 1/m;
@@ -32,7 +32,7 @@ q = zeros(n*m,T+1);
 Q = zeros(n,m,T+1);
 %The heat source is the dirac function
 if strcmp(fct,'dirac')
-    ep = sqrt(max([hx hy]));
+    ep = alpha*sqrt(max([hx hy]));
     r = sqrt((x-0.5).^2+(y-0.5).^2);
     delta = (1+cos(pi*r))./(2*ep).*(r<ep);
     for i = 1:T
