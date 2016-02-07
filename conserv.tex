@@ -61,31 +61,31 @@ We compute the eigenvectors as follows
 	a & b & 0 \\ 
 	c & d & e
 	\end{pmatrix} \begin{pmatrix}
-	u_1 \\ u_2 \\ u_3
+	x \\ y \\ z
 	\end{pmatrix} = \lambda_1 \begin{pmatrix}
-	u_1 \\ u_2 \\ u_3
+	x \\ y \\ z
 	\end{pmatrix}
 \end{align*}
 which gives the system of equations
 \begin{align*}
-u_2 &= (\frac{u_2}{u_1} - \sqrt{p'(u_1)}) u_1 \\
-au_1 + bu_2 &= (\frac{u_2}{u_1} - \sqrt{p'(u_1)}) u_2 \\
-cu_1 + du_2 + eu_3 &= (\frac{u_2}{u_1} - \sqrt{p'(u_1)}) u_3
+y &= (\frac{u_2}{u_1} - \sqrt{p'(u_1)}) x \\
+ax + by &= (\frac{u_2}{u_1} - \sqrt{p'(u_1)}) y \\
+cx + dy + ez &= (\frac{u_2}{u_1} - \sqrt{p'(u_1)}) z
 \end{align*}
-We pick $u_1 = 0$, and after solving we get 
-\begin{align*}
+We pick $x = 1$, and after solving we get 
+$$
 \begin{pmatrix}
-u_1 \\ u_2 \\u_3
-\end{pmatrix} = {pmatrix}
+x \\ y \\ z
+\end{pmatrix} = \begin{pmatrix}
 1 \\
  \frac{u_2}{u_1} - \sqrt{p'(u_1 )} \\
  \frac{u2 \sqrt{p'(u_1)}-(u_3+p(u_2)))}{u_1} 
 \end{pmatrix}
-\end{align*}
-We compute the second eigenvalue similarly and get 
+$$
+We compute the second eigenvector similarly and get 
 \begin{align*}
 \begin{pmatrix}
-u_1 \\ u_2 \\u_3
+x \\ y \\ z
 \end{pmatrix} = \begin{pmatrix}
 1 \\
  \frac{u_2}{u_1} + \sqrt{p'(u_1 )} \\
@@ -94,18 +94,16 @@ u_1 \\ u_2 \\u_3
 \end{align*}
 The last eigenvalue is computed from the system of equations
 \begin{align*}
+y &= e x \\
+ax + by &= e y \\
+cx + dy + ez &= e z
+\end{align*}
+from which we get
+\begin{align*}
 \begin{pmatrix}
-1 \\
- \frac{u_2}{u_1} - \sqrt{p'(u_1 )} \\
- \frac{u2 \sqrt{p'(u_1)}-(u_3+p(u_2)))}{u_1} 
-\end{pmatrix}, \quad \begin{pmatrix}
-1 \\
- \frac{u_2}{u_1} + \sqrt{p'(u_1 )} \\
- \frac{u2 \sqrt{p'(u_1)}+(u_3+p(u_2)))}{u_1} 
-\end{pmatrix}, \quad \begin{pmatrix}
- 0 \\
- 0  \\
- 1 \\
+x \\ y \\ z
+\end{pmatrix} = \begin{pmatrix}
+0 \\ 0 \\ 1
 \end{pmatrix}
 \end{align*}
 \subsection{Linearisation}
