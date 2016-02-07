@@ -103,3 +103,24 @@ a_2 \upsilon_1 + b_2 (\upsilon_1)_x + c_2 \upsilon
 \end{align*}
 \subsection{Hyperbolicity}
 We know that an equation of this form is hyperbolic if $\frac{\partial f}{\partial u}$ has real eigenvalues and linearly independent eigenvectors. It can be seen easily that the eigenvalues are real as long as $p'(u_1) \geq 0$. WHAT ABOUT EIGEN VECTORS? can p' = 0??
+\subsection{Transport Equation}
+We now derive conditions on $a$ and $b$ for the two-dimensional transport equation 
+\begin{align*}
+u_t + a(x,y)u_x + b(x,y) u_y = 0
+\end{align*} to be a conservation law. 
+we can rewrite the equation in the differential form for conservation laws as 
+\begin{align*}
+u_t + f(u)_x = u_t + \frac{\partial f}{\partial u} \nabla u =  u_t + \begin{pmatrix}
+a(x,y) & b(x,y)
+\end{pmatrix} \nabla u = 0
+\end{align*}
+where $f$ is the flux equation. Thus, to have a conservation law, we need
+\begin{align*}
+\begin{pmatrix}
+a(x,y) & b(x,y)
+\end{pmatrix} = \frac{\partial f}{\partial u}
+\end{align*}
+This would mean that 
+\begin{align*}
+\int of a(x,y) du_1 = \int b(x,y) du_2
+\end{align*}
