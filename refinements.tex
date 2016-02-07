@@ -39,7 +39,63 @@ The implementation of the method is done in $variableCoeff.m$.
 
 
 \subsection{Boundary conditions}
-We are now going to try and change the boundary conditions to see what happens. We have a Neuman condition on the left and right boundaries (just as before except it is no longer homogeneous). And we now have a Dirichlet condition on the upper and lower boundaries. Because in the previous grid, we had no point exactly on the boundary, we are going to shift the grid of $\frac{\Delta y}{2}$ in the y-direction. That way, we will have cells at $y=0$ and $y=1$. If we still keep $n\Delta y =1$, that means that we will now have $m(n-1)$ unknowns since the value on the upper and lower boundaries are known.
+We are now going to try and change the boundary conditions to see what happens. We have a Neuman condition on the left and right boundaries (just as before except it is no longer homogeneous). And we now have a Dirichlet condition on the upper and lower boundaries. Because in the previous grid, we had no point exactly on the boundary, we are going to shift the grid of $\frac{\Delta y}{2}$ in the y-direction. That way, we will have center of cells at $y=0$ and $y=1$. If we still keep $n\Delta y =1$, that means that we will now have $m(n-1)$ unknowns since the value on the upper and lower boundaries are known.
+
+We use the same methodology as before. We rewrite $Q$ as $Qvect$ and we will show that we will get a system of ODE's of the following type : 
+$$\frac{dQvect}{dt} = A_xQvect+A_yQvect+b_x+b_y+S$$
+
+We already know the definition of $S$, it is unchanged. $A_x$ and $b_x$ represents the derivative in the x-direction ($b_x$ is not zero because of the non homogeneous boundary conditions). Respectively, $A_y$ and $b_y$ take the y-derivative into account.
+
+The x-derivative operator does not change but an additional term appears. Indeed, for a cell that is on the right boundary, we no longer no flux on the East edge but instead : 
+$$\int_E q_xdy = \int_E (-1)dy = -\Delta y$$ 
+
+In the same way, for a cell on the left boundary, we have the following West flux :
+$$-\int_Wq_xdy=-\int_W(-1)dy = \Delta y$$
+
+So, if we define $T_x$ as the following $m\times m$ matrix :
+$$T_x = \frac{1}{\Delta x^2}\left(\begin{array}{ccccc}
+-1 & 1 & 0 & \cdots & 0 \\ 
+1 & -2 & 1 & \cdots & 0 \\ 
+0& \ddots & \ddots & \ddots & 0 \\ 
+0 & \cdots & 1 & -2 & 1 \\
+0 & \cdots & 0 & 1 & -1
+\end{array}\right) $$
+
+We can use kronecker products to express the x-derivative :
+$$A_x = I(n-1)\otimes T_x$$
+
+Where $I(n-1)$ is the $(n-1)\times (n-1)$ identity matrix. We have to take the non homogeneous conditions into account and so :
+$$b_x = ones(n-1,1) \otimes \left(\begin{array}{c}
+-\frac{1}{\Delta x} \\ 
+0 \\ 
+\vdots \\ 
+0 \\ 
+\frac{1}{\Delta x}
+\end{array}\right)$$
+
+The work for the y-derivative is quite similar. But because we are only solving for the interior cells, we have "ghost cells" on the upper and lower boundary. This means that the $(n-1)\times (n-1)$ matrix $T_y$ changes a bit : 
+$$T_y = \frac{1}{\Delta y^2}\left(\begin{array}{ccccc}
+-2 & 1 & 0 & \cdots & 0 \\ 
+1 & -2 & 1 & \cdots & 0 \\ 
+0& \ddots & \ddots & \ddots & 0 \\ 
+0 & \cdots & 1 & -2 & 1 \\
+0 & \cdots & 0 & 1 & -2
+\end{array}\right) $$
+
+And $A_y$ becomes : 
+$$A_y = T_y \otimes I(m)$$
+
+To take the Dirichtlet conditions into account we have to use $b_y$ defined by :
+$$b_y = \left(\begin{array}{ccccccccc}
+q(x_1,0,t) & \cdots & q(x_m,0,t) & 0 & \cdots & 0 & q(x_1,1,t) & \cdots & q(x_m,1,t)
+\end{array}\right)^T $$
+
+Where $x_i$ means the value of $x$ in the center of cell $(i,1)$ or $(i,n-1)$.
+
+Finally, we can define $M=A_x+A_y$ and $S_{new}=S+b_x+b_y$, we get a system of the form :
+$$\frac{dQvect}{dt}=MQvect+S_{new}$$
+
+This system is of the same form as in section 3 so we can use the same method to implement implicit Euler.
 
 
 
