@@ -14,10 +14,11 @@
 \BOOKMARK [1][-]{section.4}{Numerical results}{}% 14
 \BOOKMARK [2][-]{subsection.4.1}{Figures}{section.4}% 15
 \BOOKMARK [2][-]{subsection.4.2}{Convergence}{section.4}% 16
-\BOOKMARK [1][-]{section.5}{Refinements}{}% 17
-\BOOKMARK [2][-]{subsection.5.1}{Variable coefficients}{section.5}% 18
-\BOOKMARK [3][-]{subsubsection.5.1.1}{Finite volume method}{subsection.5.1}% 19
-\BOOKMARK [3][-]{subsubsection.5.1.2}{Plots, convergence and conservation}{subsection.5.1}% 20
-\BOOKMARK [2][-]{subsection.5.2}{Boundary conditions}{section.5}% 21
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Finite volume method}{subsection.5.2}% 22
-\BOOKMARK [3][-]{subsubsection.5.2.2}{Plots, convergence and conservation}{subsection.5.2}% 23
+\BOOKMARK [2][-]{subsection.4.3}{Conservative}{section.4}% 17
+\BOOKMARK [1][-]{section.5}{Refinements}{}% 18
+\BOOKMARK [2][-]{subsection.5.1}{Variable coefficients}{section.5}% 19
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Finite volume method}{subsection.5.1}% 20
+\BOOKMARK [3][-]{subsubsection.5.1.2}{Plots, convergence and conservation}{subsection.5.1}% 21
+\BOOKMARK [2][-]{subsection.5.2}{Boundary conditions}{section.5}% 22
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Finite volume method}{subsection.5.2}% 23
+\BOOKMARK [3][-]{subsubsection.5.2.2}{Plots, convergence and conservation}{subsection.5.2}% 24
