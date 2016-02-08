@@ -5,14 +5,14 @@
 \caption{Smooth Source Solutions at Different Times}
 \label{fig:digraph}
 \end{figure}
-As we can see with the constant heat source, the total temperature is constantly increasing with the hottest part being at heat source.
+As we can see in Figure (1) with the constant heat source, the total temperature is constantly increasing with the hottest part being at heat source.
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=.5]{diracSource4_1.eps}
 \caption{Dirac Source Solutions at Different Times}
 \label{fig:digraph}
 \end{figure}
-Up until $T=0.25$, we observe the same phenomena that we observe for the smooth heat source. However, once we pass $T=0.25$, the total heat stays the same and starts to level out. 
+Up until $T=0.25$, we observe the same phenomena in Figure (2) that we observe for the smooth heat source. However, once we pass $T=0.25$, the total heat stays the same and starts to level out. 
 \subsection{Convergence}
 Because we do not know the true solution to the problem, we study ratios, which we denote by $R$, of the differences of the computed values i.e. 
 \begin{align*}
@@ -29,7 +29,7 @@ log_2(R_h) &= log_2(\frac{O(\Delta (h/2)^r)-O(\Delta h^r)}{O(\Delta (h/4)^r) - O
 &= log_2(2^{r}) \\
 &= r
 \end{align*}
-We compute several values of $log_2(R_h)$ using different h values. We get the following values
+We compute several values of $log_2(R_h)$ using different h values. We get the values in Table 1
 \begin{table}[]
 \centering
 \caption{Order of Convergence in h}
@@ -46,7 +46,7 @@ from which we can infer that $r = 2$. We do the same thing in $t$ with
 \begin{align*}
 R_t = \frac{O(\Delta (t/2)^p)-O(\Delta t^p)}{O(\Delta (t/4)^p) - O(\Delta (t/2)^p)}
 \end{align*} 
-and obtain the following values
+and obtain the values in Table 2
 \begin{table}[]
 \centering
 \caption{Order of Convergence in t}
@@ -61,10 +61,10 @@ $log_2(R_t)$ & 1.0000 & 1.0000 & 1.0000 \\
 \end{table}
 from which we infer that $p=1$. This values are in agreement with numerical theory because the derivative with respect to time is computed with the first order Euler scheme, which has first order convergence, and second order finite difference for the second derivative with respect to time, which has second order convergence. 
 
-With the time variable source, we would expect the same $r$ and $p$, because we would use the same numerical methods. We obtain the same $p$ right away, although we do not obtain the same $r$ value. This is a result of the source term being dependent on $\Delta h$, and therefore changing with each of the different $\Delta h$ values we use. However, when solving for $r$ if we intervene in the program to keep the $\epsilon$ value the same for the different values of $h$, we can obtain the expected quadratic convergence in space. With a fixed $\epsilon =  \sqrt{\frac{1}{40}}$ we get $log_2(R_h) = 1.9978$ when $h=\frac{1}{160}$
-Because the $\infty$ and $L^2$ norms are not defined, we do not look at them for the error. 
+With the time variable source, we would expect the same $r$ and $p$, because we would use the same numerical methods. We obtain the same $p$ right away, although we do not obtain the same $r$ value. This is a result of the source term being dependent on $\Delta h$, and therefore changing with each of the different $\Delta h$ values we use. However, when solving for $r$ if we intervene in the program to keep the $\epsilon$ value the same for the different values of $h$, we can obtain the expected quadratic convergence in space. With a fixed $\epsilon =  \sqrt{\frac{1}{40}}$ we get $log_2(R_h) = 1.9978$ when $h=\frac{1}{160}$. All the convergence tests are included in \texttt{conv.m}, available at the end of the report. 
+Because the $\infty$ and $L^2$ norms are not defined for the Dirac, we do not look at them for the error. 
 We now investigate the effect of refining our approximation of the Dirac function. We do this by changing $ \epsilon$ to $\alpha \sqrt{h}$ where $\alpha = 1,0.1,0.01,0.0001,$ and $10^{-10}$. 
-We include the following plots with $\Delta h = 3.125*10^{-3}$ and $T=0.145$ show the effect of a more refined Dirac function. 
+We include the following plots, Figure (3) and (4), with $\Delta h = 3.125*10^{-3}$ and $T=0.145$ to show the effect of a more refined Dirac function. 
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=.6]{4_2_a_1.eps}
@@ -79,6 +79,33 @@ We include the following plots with $\Delta h = 3.125*10^{-3}$ and $T=0.145$ sho
 \label{fig:digraph}
 \end{figure}
 
-As we can see, the peak becomes thinner and lower as $\alpha$ becomes smaller. We can see why this is when we look at the definition of the Dirac function. When $\alpha$ becomes smaller by a factor of 10, $\delta_{\epsilon}(r)$ increases by a factor of 10. But when doing this, we also cut down the accepted radius by a factor of 10. This radius defines an area that the heat source effects, which now has been but down by a factor of 100. This is why the peak becomes thinner and lower.
+As we can see, the peak becomes thinner and lower as $\alpha$ becomes smaller. We can see why this is when we look at the definition of the Dirac function. When $\alpha$ becomes smaller by a factor of 10, $\delta_{\epsilon}(r)$ increases by a factor of 10. But when doing this, we also cut down the accepted radius by a factor of 10. This radius defines an area that the heat source effects, which now has been but down by a factor of 100. This is why the peak becomes thinner and lower. Also, if $\alpha$ gets too small the discretization cannot pick up the heat source and we get a flat plot. 
 
 \subsection{Conservative}
+In \texttt{conserv.m} we show that the method is conservative by looking at 
+\begin{align*}
+\int q dx dy = \Delta x \Delta y \sum Q_{ij}
+\end{align*}
+We need to show that
+\begin{align*}
+\int q dx dy &= \int_0^T \int S dx dy dt \rightarrow \\
+\Delta x \Delta y \sum Q_{ij} &=  \Delta x \Delta y \int_0^T \sum S_{ij} %\\
+%\sum Q_{ij} &= \sum S_{ij}
+\end{align*}
+
+Because $S$ is a known function, we can easily compute the integral. For both cases, it is done in $conserv.m$. The function returns the absolute values of the difference between the heat in the system at $t=2$ and the heat given to the system from $t=0$ to $t=2$.
+
+We check for $n=m=200$ and $h_t = 0.005$ and get the following values:
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline 
+Source term & error \\ 
+\hline 
+Smooth & $3.4506*10^{-13}$ \\ 
+\hline 
+Dirac & 0.0022 \\ 
+\hline 
+\end{tabular} 
+\end{center}
+
+In the first case, we can consider that the difference is zero. For the dirac function though, it seems that our method is not conservative. This is due to the fact that the heat source is not continuous. Therefore, we will get a bigger error while using implicit Euler. We can see that if we refine the time step, we get a smaller error. For example, for $m=n=10$ and $ht=0.00005$, we get an error of $8*10^{-4}$.

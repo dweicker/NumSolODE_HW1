@@ -48,7 +48,13 @@ For our implementation, we have used the following function $a$ and $b$ :
 $$a(y) = y$$
 $$b(x) = x$$
 
-Figure \red{add} shows the solution for different times. We can see that at first the source term is dominant. After that, it is the conduction. The functions $a$ and $b$ can be seen as the conduction coefficients. The higher they are, the quicker the heat will travel in that direction. It is easily seen in the plots. Heat "has trouble" reaching $(0,0)$ because there $a$ and $b$ are small. On the other end, where $a$ and $b$ are close to one, the conduction is really quick.
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.6]{varCoeff.eps}
+\caption{Results with Variable Coefficients}
+\label{fig:digraph}
+\end{figure}
+Figure (5) shows the solution for different times. We can see that at first the source term is dominant. After that, it is the conduction. The functions $a$ and $b$ can be seen as the conduction coefficients. The higher they are, the quicker the heat will travel in that direction. It is easily seen in the plots. Heat "has trouble" reaching $(0,0)$ because there $a$ and $b$ are small. On the other end, where $a$ and $b$ are close to one, the conduction is really quick.
 
 Let us now look at the convergence. The code used, $varCoeffConv.m$, is available at the end of the report.
 
@@ -157,7 +163,14 @@ This system is of the same form as in section 3 so we can use the same method to
 \subsubsection{Plots, convergence and conservation}
 The matlab code called $boundConv.m$ plots the solution and returns the order of convergence for space and time.
 
-We used the given boundary conditions and the results are given in figure \red{add}. We can see the boundary conditions given at $y=0$ and $y=1$. We can also see the evolution of the temperature. First, the gradients are really steep near the boundaries because the initial condition is zero. Then, the conduction acts and the gradients become less steep.
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.6]{boundConv.eps}
+\caption{Results with Non-homogeneous B.C.'s}
+\label{fig:digraph}
+\end{figure}
+
+We used the given boundary conditions and the results are given in figure (6). We can see the boundary conditions given at $y=0$ and $y=1$. We can also see the evolution of the temperature. First, the gradients are really steep near the boundaries because the initial condition is zero. Then, the conduction acts and the gradients become less steep.
 
 Let us now look at the convergence. Let us define : 
 $$R = log_3(\frac{Q_h-Q_{h/3}}{Q_{h/3}-Q_{h/9}})$$
