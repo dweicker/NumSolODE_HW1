@@ -1,8 +1,8 @@
 function [consSmooth,consDirac] = conserv()
 %CONSERV This function checks conservation for both heat source
-m =800;
-n = 800;
-ht = 0.01;
+m =10;
+n = 10;
+ht = 0.00005;
 
 %Conservation for smooth source
 [Q,X,Y,T] = eulerImpl(m,n,ht,2/ht,'smooth',1);
