@@ -1,0 +1,42 @@
+function [orderSpace,orderTime] = boundConv()
+%BOUNDCONV This function computes the order of convergence in space and
+%time for the problem with non homogeneous boundary conditions. It also
+%plots the solution at different times for the most refined mesh.
+close all;
+
+%Space convergence
+N = [10 30 90 270 810];
+q = zeros(size(N));
+n = length(N);
+for i = 1:n;
+    [Q,X,Y,T] = bound(N(i),N(i),0.01,20);
+    I = (abs(X-0.95)< eps);
+    J = (abs(Y-0.9) < eps);
+    q(i) = Q(J,I,end);
+end
+orderSpace = log(abs(q(1:n-2)-q(2:n-1))./abs(q(2:n-1)-q(3:n)))/log(3);
+
+%Time convergence
+ht = [0.08 0.04 0.02 0.01 0.005];
+tend = 5*ht(1);
+p = zeros(size(ht));
+n = length(ht);
+for i = 1:n
+    [P,x,y,t] = bound(200,200,ht(i),round(tend/ht(i)));
+    p(i) = P(100,75,end);
+end
+orderTime = log2(abs(p(1:n-2)-p(2:n-1))./abs(p(2:n-1)-p(3:n)));
+
+%Plot of the solution
+figure;
+for i = 1:9;
+    subplot(3,3,i);
+    mesh(X,Y,Q(:,:,2*i));
+    title(sprintf('NH boundary, T = %g', T(2*i)));
+    xlabel('x');
+    ylabel('y');
+    zlabel('Q');
+end
+
+end
+

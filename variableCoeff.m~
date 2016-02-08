@@ -2,9 +2,7 @@ function [Q,X,Y,Tax,conservCheck] = variableCoeff(m,n,ht,T)
 %VARIABLECOEFF We here implement a solver where a(y) and b(x) can be any
 %smooth positive function. For the source term, we always use the smooth
 %function.
-%The output conservCheck the value of the difference between the heat
-%given to the system by the heat source and the heat contained in the
-%system at final time
+%The variable conservCheck is 1 if there is conservation and 0 if not
 
 hx = 1/m;
 hy = 1/n;
@@ -58,7 +56,8 @@ end
 heatGiven = hx*hy*sum(S)*T*ht;
 %The total heat in the system is :
 heatSys = hx*hy*sum(sum(Q(:,:,end)));
-conservCheck = abs(heatGiven-heatSys);
+%
+conservCheck = abs(heatGiven-heatSys) < 0.001;
 
 end
 

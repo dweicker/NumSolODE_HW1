@@ -1,0 +1,38 @@
+function [orderSpace,orderTime] = varCoeff()
+%VARCOEFF This function computes the order of convergence for space and
+%time and plots the solution for the most refined grid
+
+%Space convergence
+N = [40 80 160 320 640];
+q = zeros(size(N));
+n = length(N);
+for i = 1:n;
+    [Q,X,Y,T] = variableCoeff(N(i),N(i),0.05,20);
+    q(i) = Q(end,end,end);
+end
+orderSpace = log2(abs(q(1:n-2)-q(2:n-1))./abs(q(2:n-1)-q(3:n)));
+
+%Time convergence
+ht = [0.08 0.04 0.02 0.01 0.005];
+tend = 20*ht(1);
+p = zeros(size(ht));
+n = length(ht);
+for i = 1:n
+    [P,x,y,t] = variableCoeff(200,200,ht(i),round(tend/ht(i)));
+    p(i) = P(end,end,end);
+end
+orderTime = log2(abs(p(1:n-2)-p(2:n-1))./abs(p(2:n-1)-p(3:n)));
+
+%Plot of the solution
+for i = [2 4 6 8 10 12 14 16 18];
+    subplot(3,3,i-1)
+    mesh(X,Y,Q(:,:,i))
+    title(sprintf('Dirac Source, T = %g', Tax(i)))
+    xlabel('x')
+    ylabel('y')
+    zlabel('Q')
+end
+
+
+end
+
